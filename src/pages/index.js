@@ -64,8 +64,7 @@ const IndexPage = () => {
         <title>Home Page</title>
       </Helmet>
 
-      <Map ref={mapRef} {...mapSettings}>
-        <Marker ref={markerRef} position={CENTER} />
+      <Map {...mapSettings}>
       </Map>
 
       <Container type="content" className="text-center home-start">
