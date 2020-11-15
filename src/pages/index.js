@@ -25,12 +25,16 @@ const IndexPage = () => {
     let response;
     try {
         response = await axios.get("https://corona.lmao.ninja/v2/countries")
-        console.log(response)
     } catch (error) {
         console.log(error.message)
         return
     }
     const {data=[]}=response
+    const hasData = Array.isArray(data) && data.length > 0
+    if (!hasData) {
+        return
+    }
+    
   }
 
   const mapSettings = {
