@@ -34,6 +34,24 @@ const IndexPage = () => {
     if (!hasData) {
         return
     }
+
+    const geoJson = {
+        type: "FeatureColletion",
+        features: data.map((country={})=>{
+            const {countryInfo = {}} = country
+            const {lat,long:lng} = countryInfo
+            return {
+                type: "Feature",
+                properties: {
+                    ...country
+                },
+                geometry: {
+                    type:"Point",
+                    coordinates: [lng,lat]
+                }
+            }
+        })
+    }
     
   }
 
