@@ -52,6 +52,17 @@ const IndexPage = () => {
             }
         })
     }
+
+    const geoJsonLayers = new L.GeoJSON(geoJson,{
+
+     pointToLayer: (feature={},latlng) => {
+         const {properties={}} = feature
+         let updatedFormatted;
+         let casesString;
+         const {country,updated,cases,deaths,recovered} = properties
+     }
+
+    })
     
   }
 
