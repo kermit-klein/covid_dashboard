@@ -5,6 +5,7 @@ import Container from 'components/Container';
 import Map from 'components/Map';
 import Snippet from 'components/Snippet';
 import axios from "axios"
+import L from 'leaflet';
 
 const LOCATION = {
   lat: 38.9072,
@@ -85,7 +86,10 @@ const IndexPage = () => {
          ${casesString}
          </span>
          `
+         return L.marker(latlng,{icon:L.divIcon({className:"icon",html}),riseOnHover:true})
      }
+
+     
 
     })
     
