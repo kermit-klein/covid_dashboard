@@ -8,8 +8,8 @@ import axios from "axios"
 import L from 'leaflet';
 
 const LOCATION = {
-  lat: 38.9072,
-  lng: -77.0369,
+  lat: 0,
+  lng: 0,
 };
 const CENTER = [LOCATION.lat, LOCATION.lng];
 const DEFAULT_ZOOM = 2;
@@ -97,7 +97,7 @@ const IndexPage = () => {
 
   const mapSettings = {
     center: CENTER,
-    defaultBaseMap: 'OpenStreetMap',
+    defaultBaseMap: 'Mapbox',
     zoom: DEFAULT_ZOOM,
     mapEffect,
   };
