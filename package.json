@@ -4,9 +4,9 @@
   "description": "A Gatsby starter with Leafet!",
   "version": "0.2.4",
   "author": {
-    "name": "Colby Fayock",
-    "email": "hello@colbyfayock.com",
-    "url": "https://twitter.com/colbyfayock"
+    "name": "Ali Erbay",
+    "email": "nomail@nomail.com",
+    "url": "https://github.com/kermit-klein"
   },
   "dependencies": {
     "axios": "^0.21.0",
@@ -85,7 +85,7 @@
   "homepage": "https://gatsby-starter-leaflet.netlify.app/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/colbyfayock/gatsby-starter-leaflet"
+    "url": "https://github.com/kermit-klein/covid_dashboard"
   },
   "bugs": {
     "url": "https://github.com/colbyfayock/gatsby-starter-leaflet/issues"

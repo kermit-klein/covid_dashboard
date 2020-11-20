@@ -1,5 +1,4 @@
 const accessToken = process.env.REACT_APP_MAPKEY;
-debugger
 export const mapServices = [
   {
     name: 'OpenStreetMap',

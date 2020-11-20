@@ -13,7 +13,7 @@ const Header = () => {
     <header>
       <Container type="content">
         <p>
-          <Link to="/">{ companyName }</Link>
+        <p>Covid-19 Status</p>
         </p>
         <ul>
           <li>
