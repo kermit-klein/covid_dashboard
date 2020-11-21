@@ -16,15 +16,17 @@ const DEFAULT_ZOOM = 2;
 const IndexPage = () => {
 
   async function mapEffect({ leafletElement : map } = {}) {
-    let response;
+    let response_1,response_2;
     try {
-        response = await axios.get("https://corona.lmao.ninja/v2/countries")
+        response_1 = await axios.get("https://corona.lmao.ninja/v2/countries")
+        response_2 = await axios.get("https://corona.lmao.ninja/v2/all")
     } catch (error) {
         console.log(error.message)
         return
     }
-    const {data=[]}=response
-    const hasData = Array.isArray(data) && data.length > 0
+    const {data=[]}=response_1
+    const {stats=[]}=response_2
+    const hasData = Array.isArray(data) && Array.isArray(stats) && stats.length >0 && data.length > 0
     if (!hasData) {
         return
     }
