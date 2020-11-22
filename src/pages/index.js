@@ -1,9 +1,9 @@
-import React from 'react';
-import { Helmet } from 'react-helmet';
-import Layout from 'components/Layout';
-import Map from 'components/Map';
-import axios from "axios"
-import L from 'leaflet';
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet";
+import Layout from "components/Layout";
+import Map from "components/Map";
+import axios from "axios";
+import L from "leaflet";
 
 const LOCATION = {
   lat: 0,
@@ -12,60 +12,72 @@ const LOCATION = {
 const CENTER = [LOCATION.lat, LOCATION.lng];
 const DEFAULT_ZOOM = 2;
 
-
 const IndexPage = () => {
+  const [stats, setStats] = useState({});
 
-  async function mapEffect({ leafletElement : map } = {}) {
-    let response_1,response_2;
+  useEffect(() => {
+    (async function () {
+      try {
+        let response = await axios.get("https://corona.lmao.ninja/v2/all");
+        const { data: stats = {} } = response;
+        setStats(stats);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  async function mapEffect({ leafletElement: map } = {}) {
+    let response_1, response_2;
     try {
-        response_1 = await axios.get("https://corona.lmao.ninja/v2/countries")
-        response_2 = await axios.get("https://corona.lmao.ninja/v2/all")
+      response_1 = await axios.get("https://corona.lmao.ninja/v2/countries");
+      response_2 = await axios.get("https://corona.lmao.ninja/v2/all");
     } catch (error) {
-        console.log(error.message)
-        return
+      console.log(error.message);
+      return;
     }
-    const {data=[]}=response_1
-    const {stats=[]}=response_2
-    const hasData = Array.isArray(data) && Array.isArray(stats) && stats.length >0 && data.length > 0
+    const { data = [] } = response_1;
+    const { data: stats = {} } = response_2;
+    debugger;
+    const hasData = Array.isArray(data) && data.length > 0;
     if (!hasData) {
-        return
+      return;
     }
 
     const geoJson = {
-        type: "FeatureColletion",
-        features: data.map((country={})=>{
-            const {countryInfo = {}} = country
-            const {lat,long:lng} = countryInfo
-            return {
-                type: "Feature",
-                properties: {
-                    ...country
-                },
-                geometry: {
-                    type:"Point",
-                    coordinates: [lng,lat]
-                }
-            }
-        })
-    }
+      type: "FeatureColletion",
+      features: data.map((country = {}) => {
+        const { countryInfo = {} } = country;
+        const { lat, long: lng } = countryInfo;
+        return {
+          type: "Feature",
+          properties: {
+            ...country,
+          },
+          geometry: {
+            type: "Point",
+            coordinates: [lng, lat],
+          },
+        };
+      }),
+    };
 
-    const geoJsonLayers = new L.GeoJSON(geoJson,{
+    const geoJsonLayers = new L.GeoJSON(geoJson, {
+      pointToLayer: (feature = {}, latlng) => {
+        const { properties = {} } = feature;
+        let updatedFormatted;
+        let casesString;
+        const { country, updated, cases, deaths, recovered } = properties;
+        casesString = `${cases}`;
 
-     pointToLayer: (feature={},latlng) => {
-         const {properties={}} = feature
-         let updatedFormatted;
-         let casesString;
-         const {country,updated,cases,deaths,recovered} = properties
-         casesString = `${cases}`
-         
-         if ( cases>1000) {
-            casesString = `${casesString.slice(0,-3)}k+`
-         }
+        if (cases > 1000) {
+          casesString = `${casesString.slice(0, -3)}k+`;
+        }
 
-         if (updated) {
-             updatedFormatted = new Date(updated).toLocaleString()
-         }
-         const html = `
+        if (updated) {
+          updatedFormatted = new Date(updated).toLocaleString();
+        }
+        const html = `
          <span class="icon-marker">
          <span class="icon-marker-tooltip">
           <h2>
@@ -80,20 +92,20 @@ const IndexPage = () => {
          </span>
          ${casesString}
          </span>
-         `
-         return L.marker(latlng,{icon:L.divIcon({className:"icon",html}),riseOnHover:true})
-     }
-
-     
-
-    })
-    geoJsonLayers.addTo(map)
-    window.dispatchEvent(new Event('resize'));
+         `;
+        return L.marker(latlng, {
+          icon: L.divIcon({ className: "icon", html }),
+          riseOnHover: true,
+        });
+      },
+    });
+    geoJsonLayers.addTo(map);
+    window.dispatchEvent(new Event("resize"));
   }
 
   const mapSettings = {
     center: CENTER,
-    defaultBaseMap: 'Mapbox',
+    defaultBaseMap: "Mapbox",
     zoom: DEFAULT_ZOOM,
     mapEffect,
   };
@@ -103,8 +115,64 @@ const IndexPage = () => {
       <Helmet>
         <title>Home Page</title>
       </Helmet>
-      <Map {...mapSettings}>
-      </Map>
+      <Map {...mapSettings}></Map>
+
+      <div className="tracker-stats">
+        <ul>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.tests : "-"}
+              <strong>Total Tests</strong>
+            </p>
+            <p className="tracker-stat-secondary">
+              {stats ? stats.testsPerOneMillion : "-"}
+              <strong>Per 1 Million</strong>
+            </p>
+          </li>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.cases : "-"}
+              <strong>Total Cases</strong>
+            </p>
+            <p className="tracker-stat-secondary">
+              {stats ? stats.casesPerOneMillion : "-"}
+              <strong>Per 1 Million</strong>
+            </p>
+          </li>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.deaths : "-"}
+              <strong>Total Deaths</strong>
+            </p>
+            <p className="tracker-stat-secondary">
+              {stats ? stats.deathsPerOneMillion : "-"}
+              <strong>Per 1 Million</strong>
+            </p>
+          </li>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.active : "-"}
+              <strong>Active</strong>
+            </p>
+          </li>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.critical : "-"}
+              <strong>Critical</strong>
+            </p>
+          </li>
+          <li className="tracker-stat">
+            <p className="tracker-stat-primary">
+              {stats ? stats.recovered : "-"}
+              <strong>Recovered</strong>
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div className="tracker-last-updated">
+        <p>Last Updated: {stats ? stats.updated : "-"}</p>
+      </div>
     </Layout>
   );
 };
