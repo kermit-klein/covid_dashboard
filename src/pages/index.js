@@ -38,7 +38,6 @@ const IndexPage = () => {
     }
     const { data = [] } = response_1;
     const { data: stats = {} } = response_2;
-    debugger;
     const hasData = Array.isArray(data) && data.length > 0;
     if (!hasData) {
       return;
@@ -171,7 +170,10 @@ const IndexPage = () => {
       </div>
 
       <div className="tracker-last-updated">
-        <p>Last Updated: {stats ? stats.updated : "-"}</p>
+        <p>
+          Last Updated:{" "}
+          {stats ? new Date(stats.updated).toLocaleDateString() : "-"}
+        </p>
       </div>
     </Layout>
   );
