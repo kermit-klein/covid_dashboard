@@ -28,16 +28,14 @@ const IndexPage = () => {
   }, []);
 
   async function mapEffect({ leafletElement: map } = {}) {
-    let response_1, response_2;
+    let response_1;
     try {
       response_1 = await axios.get("https://corona.lmao.ninja/v2/countries");
-      response_2 = await axios.get("https://corona.lmao.ninja/v2/all");
     } catch (error) {
       console.log(error.message);
       return;
     }
     const { data = [] } = response_1;
-    const { data: stats = {} } = response_2;
     const hasData = Array.isArray(data) && data.length > 0;
     if (!hasData) {
       return;
@@ -115,65 +113,66 @@ const IndexPage = () => {
         <title>Home Page</title>
       </Helmet>
       <Map {...mapSettings}></Map>
+      <div className="tracker">
+        <div className="tracker-stats">
+          <ul>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.tests : "-"}
+                <strong>Total Tests</strong>
+              </p>
+              <p className="tracker-stat-secondary">
+                {stats ? stats.testsPerOneMillion : "-"}
+                <strong>Per 1 Million</strong>
+              </p>
+            </li>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.cases : "-"}
+                <strong>Total Cases</strong>
+              </p>
+              <p className="tracker-stat-secondary">
+                {stats ? stats.casesPerOneMillion : "-"}
+                <strong>Per 1 Million</strong>
+              </p>
+            </li>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.deaths : "-"}
+                <strong>Total Deaths</strong>
+              </p>
+              <p className="tracker-stat-secondary">
+                {stats ? stats.deathsPerOneMillion : "-"}
+                <strong>Per 1 Million</strong>
+              </p>
+            </li>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.active : "-"}
+                <strong>Active</strong>
+              </p>
+            </li>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.critical : "-"}
+                <strong>Critical</strong>
+              </p>
+            </li>
+            <li className="tracker-stat">
+              <p className="tracker-stat-primary">
+                {stats ? stats.recovered : "-"}
+                <strong>Recovered</strong>
+              </p>
+            </li>
+          </ul>
+        </div>
 
-      <div className="tracker-stats">
-        <ul>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.tests : "-"}
-              <strong>Total Tests</strong>
-            </p>
-            <p className="tracker-stat-secondary">
-              {stats ? stats.testsPerOneMillion : "-"}
-              <strong>Per 1 Million</strong>
-            </p>
-          </li>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.cases : "-"}
-              <strong>Total Cases</strong>
-            </p>
-            <p className="tracker-stat-secondary">
-              {stats ? stats.casesPerOneMillion : "-"}
-              <strong>Per 1 Million</strong>
-            </p>
-          </li>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.deaths : "-"}
-              <strong>Total Deaths</strong>
-            </p>
-            <p className="tracker-stat-secondary">
-              {stats ? stats.deathsPerOneMillion : "-"}
-              <strong>Per 1 Million</strong>
-            </p>
-          </li>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.active : "-"}
-              <strong>Active</strong>
-            </p>
-          </li>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.critical : "-"}
-              <strong>Critical</strong>
-            </p>
-          </li>
-          <li className="tracker-stat">
-            <p className="tracker-stat-primary">
-              {stats ? stats.recovered : "-"}
-              <strong>Recovered</strong>
-            </p>
-          </li>
-        </ul>
-      </div>
-
-      <div className="tracker-last-updated">
-        <p>
-          Last Updated:{" "}
-          {stats ? new Date(stats.updated).toLocaleDateString() : "-"}
-        </p>
+        <div className="tracker-last-updated">
+          <p>
+            Last Updated:{" "}
+            {stats ? new Date(stats.updated).toLocaleDateString() : "-"}
+          </p>
+        </div>
       </div>
     </Layout>
   );
