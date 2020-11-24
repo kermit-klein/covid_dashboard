@@ -1,15 +1,9 @@
-# 🍃 Gatsby Leaflet Starter
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Jumpstart your next Gatsby mapping project with Leaflet!
 
-## ⚡ Quick Deploy
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/colbyfayock/gatsby-starter-leaflet) [![Deploy with Vercel Now](https://zeit.co/button)](https://vercel.com/import/project?template=https://github.com/colbyfayock/gatsby-starter-leaflet)
+![Image](https://i.imgur.com/56w4Cct.png)
 
-
-## 🧰 What This Includes
+## 🧰 Packages
 * [Yarn](https://yarnpkg.com/en/)
 * [Gatsby](https://www.gatsbyjs.org/)
 * [Sass](https://sass-lang.com)
@@ -30,7 +24,13 @@ Run the following in your favorite terminal:
 gatsby new my-map-app https://github.com/colbyfayock/gatsby-starter-leaflet
 ```
 
-### Starting from Scratch
+## 🚀 Getting Started
+
+### Requirements
+* [Gatsby CLI](https://www.npmjs.com/package/gatsby-cli)
+* [Yarn](https://yarnpkg.com/en/)
+
+### Building the App
 * Set up Yarn: https://yarnpkg.com/lang/en/docs/install/#mac-stable)[https://yarnpkg.com/lang/en/docs/install/
 * Install the Gatsby CLI globally:
 ```
@@ -38,11 +38,7 @@ yarn global add gatsby-cli
 ```
 * Inside the directory of your choice, scaffold a new Gatsby site:
 ```
-gatsby new my-map-app https://github.com/colbyfayock/gatsby-starter-leaflet
-```
-For example, if I want my installation in `~/Code/new-gatsby-site`, I would navigate to `~/Code` and run:
-```
-gatsby new new-gatsby-site https://github.com/colbyfayock/gatsby-starter-leaflet
+gatsby new [https://github.com/kermit-klein/covid_dashboard] 
 ```
 * Navigate to your new directory and run:
 ```
