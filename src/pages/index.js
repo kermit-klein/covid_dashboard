@@ -31,6 +31,7 @@ const IndexPage = () => {
     let response_1;
     try {
       response_1 = await axios.get("https://corona.lmao.ninja/v2/countries");
+      debugger;
     } catch (error) {
       console.log(error.message);
       return;
@@ -110,7 +111,7 @@ const IndexPage = () => {
   return (
     <Layout pageName="home">
       <Helmet>
-        <title>Home Page</title>
+        <title>Covid-19 Dashboard</title>
       </Helmet>
       <Map {...mapSettings}></Map>
       <div className="tracker">
