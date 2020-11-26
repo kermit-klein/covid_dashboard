@@ -98,14 +98,47 @@ const IndexPage = () => {
          ${casesString}
          </span>
          `;
+        function onClick(e) {
+          handleOnMarkerClick({ feature, latlng }, e);
+        }
         return L.marker(latlng, {
           icon: L.divIcon({ className: "icon", html }),
           riseOnHover: true,
-        });
+        }).on("click", onClick);
       },
     });
+
     geoJsonLayers.addTo(map);
     window.dispatchEvent(new Event("resize"));
+  }
+
+  function handleOnMarkerClick({ feature = {} }, event = {}) {
+    const { target = {} } = event;
+    const { _map: map = {} } = target;
+    const { geometry = {} } = feature;
+    const { coordinates } = geometry;
+
+    promiseToFlyTo(map, {
+      center: { lat: coordinates[1], lng: coordinates[0] },
+      zoom: 4,
+    });
+  }
+
+  function promiseToFlyTo(map, { zoom, center }) {
+    return new Promise((resolve, reject) => {
+      const baseError = "Failed to fly to the area";
+      if (!map.flyTo) {
+        reject(`${baseError}: no flyTo method on map`);
+      }
+
+      const mapCenter = center || map.getCenter();
+      const mapZoom = zoom || map.getZoom();
+
+      map.flyTo(mapCenter, mapZoom, { duration: 1 });
+      map.once("moveend", () => {
+        resolve();
+      });
+    });
   }
 
   const mapSettings = {
