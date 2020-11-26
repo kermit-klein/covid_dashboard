@@ -31,7 +31,6 @@ const IndexPage = () => {
     let response_1;
     try {
       response_1 = await axios.get("https://corona.lmao.ninja/v2/countries");
-      debugger;
     } catch (error) {
       console.log(error.message);
       return;
@@ -65,7 +64,14 @@ const IndexPage = () => {
         const { properties = {} } = feature;
         let updatedFormatted;
         let casesString;
-        const { country, updated, cases, deaths, recovered } = properties;
+        const {
+          country,
+          updated,
+          cases,
+          deaths,
+          recovered,
+          countryInfo,
+        } = properties;
         casesString = `${cases}`;
 
         if (cases > 1000) {
@@ -78,6 +84,7 @@ const IndexPage = () => {
         const html = `
          <span class="icon-marker">
          <span class="icon-marker-tooltip">
+         <img class="country-flag" src=${countryInfo.flag} alt="flag"/>
           <h2>
           ${country}
           </h2>
